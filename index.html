@@ -108,9 +108,6 @@ tr.ev td:first-child{box-shadow:inset 4px 0 0 var(--on)}
 .ev-box .h{font-size:.66rem;text-transform:uppercase;letter-spacing:.09em;color:var(--on);font-weight:700}
 .ev-box p{margin:.4rem 0 .5rem;font-size:.87rem;line-height:1.65;max-width:52rem}
 .ev-box small{color:var(--grey);font-size:.72rem}
-.note{background:var(--tint);border-left:3px solid var(--crimson);padding:.9rem 1.1rem;font-size:.85rem;margin-top:1.2rem;line-height:1.6}
-.note b{color:var(--ink)}
-.note a{color:var(--crimson)}
 footer{margin-top:1.2rem;font-size:.74rem;color:var(--grey);line-height:1.6}
 footer b{color:var(--ink)}
 footer a{color:var(--crimson)}
@@ -154,7 +151,6 @@ footer a{color:var(--crimson)}
 <div class="main">
   <div class="summary" id="summary"></div>
   <div class="tw"><table><thead><tr id="th"></tr></thead><tbody id="tb"></tbody></table></div>
-  <div class="note" id="ratingnote"></div>
   <footer>
   <b>Source.</b> Built from <b>data/wv_county_profile.csv</b>; disaster counts and FEMA totals reconcile to the Atlas of Accountability 2011&ndash;2024 workbook on all 55 counties. See <a href="methodology.html">About the data</a> for every column and its source. <b>Not in this file yet:</b> data centers, coal plants, mining, and landownership.
   </footer>
@@ -296,11 +292,6 @@ function init(){
     if(!document.getElementById('multi').contains(e.target)) document.getElementById('panel').hidden=true;
   });
 
-  const bad=D.filter(d=>d.rate==='Relatively Low' && d.natl>=99);
-  document.getElementById('ratingnote').innerHTML=
-    '<b>The flood column is a national rank.</b> <b>Natl flood %ile</b> is where the county stands against every county in America for flood loss: 99 means only 1% of U.S. counties lose more. '+
-    'We lead with this instead of FEMA&rsquo;s own flood-risk rating, which is graded on a curve against the whole country and buries a small state where the water gets everywhere. '+
-    'FEMA still tags <b>'+bad.length+' West Virginia counties &ldquo;Relatively Low&rdquo; that actually sit in the nation&rsquo;s worst 1%</b>, including '+bad.slice(0,3).map(d=>d.c).join(', ')+'.';
   draw();
 }
 
