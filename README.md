@@ -6,7 +6,7 @@ This project puts them in one place, for all 55 counties, so that the people mak
 
 Part of the [Atlas of Disaster](https://rebuildbydesign.org/atlas-of-disaster/) by [Rebuild by Design](https://rebuildbydesign.org).
 
-**→ [Open the County Risk Profile](https://judy-huynh.github.io/atlas-west-virginia/)**
+**→ [Open the County Risk Profile](https://rebuildbydesign.github.io/atlas-west-virginia/)**
 
 ---
 
@@ -26,7 +26,7 @@ That is the gap this repository exists to close.
 
 The findings live on the site, not in this file, so they are computed from the data and cannot go stale.
 
-**→ [Read the findings](https://judy-huynh.github.io/atlas-west-virginia/findings.html)**
+**→ [Read the findings](https://rebuildbydesign.github.io/atlas-west-virginia/findings.html)**
 
 In short: the median West Virginia county sits in the 96th percentile nationally for flood loss, the state loses hundreds of millions of dollars a year to flooding, and the counties hit hardest have received the least federal money. FEMA's own rating hides all of it.
 
@@ -41,7 +41,7 @@ The data is built to be used by people who have to justify a decision:
 - **City and municipal planners**, who need to know where the water is before siting a school, clinic, or fire station.
 - **Communities and advocates**, who need evidence for a county that no national dataset has ever bothered to look at.
 
-The [County Risk Profile](https://judy-huynh.github.io/atlas-west-virginia/) lets each of them ask their own question of the same data: sort every column, tick the compound-risk factors that matter to their work to find the counties carrying several at once, and **click any county to get a sourced paragraph** they can put straight into an application or a briefing.
+The [County Risk Profile](https://rebuildbydesign.github.io/atlas-west-virginia/) lets each of them ask their own question of the same data: sort every column, tick the compound-risk factors that matter to their work to find the counties carrying several at once, and **click any county to get a sourced paragraph** they can put straight into an application or a briefing.
 
 ---
 
@@ -51,7 +51,7 @@ Being clear about the limits is part of the point.
 
 **This covers flooding, hazard, and vulnerability.** It does not yet contain data centers, coal plants, mining permits, abandoned mine lands, Superfund sites, or landownership. Those are coming, and they answer a different question: not *what threatens this county*, but *who is putting it there*. Until they are here, this data cannot speak to that.
 
-**Some source layers arrived without a date.** The flood zone, buyout, repetitive loss, and watershed files carry no vintage in them. The measurements are sound; the provenance needs confirming before any floodplain figure is published. See [About the data](https://judy-huynh.github.io/atlas-west-virginia/methodology.html).
+**Some source layers arrived without a date.** The flood zone, buyout, repetitive loss, and watershed files carry no vintage in them. The measurements are sound; the provenance needs confirming before any floodplain figure is published. See [About the data](https://rebuildbydesign.github.io/atlas-west-virginia/methodology.html).
 
 **Never sum the disaster column.** One storm is declared across many counties at once. West Virginia has had **23** federal disaster declarations, 2011 to 2024. The county column says how many of those touched each county; adding it up counts the same storm over and over.
 
@@ -61,9 +61,9 @@ Being clear about the limits is part of the point.
 
 | Page | What it does |
 |---|---|
-| **[Findings](https://judy-huynh.github.io/atlas-west-virginia/findings.html)** | Where West Virginia actually stands. Every figure computed live from the data. |
-| **[County Risk Profile](https://judy-huynh.github.io/atlas-west-virginia/)** | All 55 counties, every column, sortable. Tick compound-risk factors to find the counties carrying several at once, and click any county for a sourced evidence paragraph. |
-| **[About the data](https://judy-huynh.github.io/atlas-west-virginia/methodology.html)** | What every column means and where it comes from. |
+| **[Findings](https://rebuildbydesign.github.io/atlas-west-virginia/findings.html)** | Where West Virginia actually stands. Every figure computed live from the data. |
+| **[County Risk Profile](https://rebuildbydesign.github.io/atlas-west-virginia/)** | All 55 counties, every column, sortable. Tick compound-risk factors to find the counties carrying several at once, and click any county for a sourced evidence paragraph. |
+| **[About the data](https://rebuildbydesign.github.io/atlas-west-virginia/methodology.html)** | What every column means and where it comes from. |
 
 ---
 
