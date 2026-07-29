@@ -49,13 +49,33 @@ footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--rule);font-si
 <thead><tr><th style="width:11rem">Column</th><th>What it means</th><th style="width:15rem">Where it comes from</th></tr></thead>
 <tbody>
 
-<tr><td class="c">County</td>
-<td>One of West Virginia's 55 counties.</td>
-<td class="s"><a href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html">U.S. Census Bureau TIGER/Line</a></td></tr>
+<tr><td class="c">% 60+</td>
+<td>Share of residents aged 60 or older. 60 is the federal definition of an older adult, under the Older Americans Act.</td>
+<td class="s"><a href="https://www.census.gov/programs-surveys/acs">U.S. Census, American Community Survey</a></td></tr>
+
+<tr><td class="c">% in floodplain</td>
+<td>How much of the county sits inside FEMA's high-risk flood zone, the area with a 1-in-100 chance of flooding in any given year. Statewide, 3.2% of West Virginia is in it. Mason County is the highest at 9.85%.<span class="mapped">Mapped</span></td>
+<td class="s"><a href="https://www.fema.gov/flood-maps/national-flood-hazard-layer">FEMA flood maps</a></td></tr>
 
 <tr><td class="c">Basin</td>
 <td>Which major river basin the county drains into: the <b>Ohio River</b> or the <b>Chesapeake Bay</b>. This matters because federal watershed funding follows basins. 47 counties drain to the Ohio, 8 to the Chesapeake.<span class="mapped">Mapped</span></td>
 <td class="s"><a href="https://www.usgs.gov/national-hydrography/watershed-boundary-dataset">USGS watershed boundaries</a></td></tr>
+
+<tr><td class="c">Buyouts</td>
+<td>How many individual properties have been bought out and cleared because they kept flooding. Funded by FEMA, the Army Corps, the USDA, HUD, or the community itself. McDowell County alone has 708 of the state's 2,826.<span class="mapped">Mapped</span></td>
+<td class="s"><a href="https://www.wvgis.wvu.edu/data/dataset.php?ID=457">WV GIS Technical Center</a>, from FEMA, Army Corps, USDA and HUD records</td></tr>
+
+<tr><td class="c">Class</td>
+<td>Whether the county is Urban or Rural. Urban means it contains a city of more than 50,000 people. Most of West Virginia is rural.</td>
+<td class="s"><a href="https://www.census.gov/programs-surveys/metro-micro.html">U.S. Office of Management and Budget</a>, via the U.S. Census Bureau</td></tr>
+
+<tr><td class="c">County</td>
+<td>One of West Virginia's 55 counties.</td>
+<td class="s"><a href="https://www.census.gov/geographies/mapping-files/time-series/geo/tiger-line-file.html">U.S. Census Bureau TIGER/Line</a></td></tr>
+
+<tr><td class="c">Data center</td>
+<td>Whether a large AI data center is announced, proposed, permitted, or certified in the county, shown as a flag with the project's status. Details for every project sit in the panel below the county table. Unlike the flood columns (2011&ndash;2024), this is a <b>current, fast-changing snapshot</b>, hand-curated and dated. Power figures are self-reported and mix the <b>power-plant</b> capacity built to run the center with the center's own <b>IT</b> capacity.</td>
+<td class="s"><a href="https://www.fractracker.org/data-centers/">FracTracker U.S. Data Centers Tracker</a>, verified against WVDEP air permits, the WV Division of Economic Development, and the Governor's office</td></tr>
 
 <tr><td class="c">Disasters</td>
 <td>How many times the county was included in a federal major disaster declaration between 2011 and 2024. Extreme heat is not counted, because heat almost never triggers a federal declaration.<br><b>Do not add this column up.</b> One storm is declared across many counties at once, so summing the column counts the same event over and over. West Virginia has had <b>23</b> federal disaster declarations in total. The most any single county saw is <b>12</b> (Lincoln).</td>
@@ -65,45 +85,25 @@ footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--rule);font-si
 <td>Federal recovery and mitigation dollars sent to the county, 2011 to 2024 (FEMA Public Assistance and Hazard Mitigation). This is the county's share only. It does not include HUD disaster grants, which go to the state and are never broken out by county.</td>
 <td class="s"><a href="https://www.fema.gov/openfema">FEMA</a>, via the <a href="https://rebuildbydesign.org/atlas-of-disaster/">Atlas of Disaster</a></td></tr>
 
-<tr><td class="c">Buyouts</td>
-<td>How many individual properties have been bought out and cleared because they kept flooding. Funded by FEMA, the Army Corps, the USDA, HUD, or the community itself. McDowell County alone has 708 of the state's 2,826.<span class="mapped">Mapped</span></td>
-<td class="s"><a href="https://www.wvgis.wvu.edu/data/dataset.php?ID=457">WV GIS Technical Center</a>, from FEMA, Army Corps, USDA and HUD records</td></tr>
-
-<tr><td class="c">Rep. loss</td>
-<td>Repetitive loss areas: places FEMA has formally flagged as flooding over and over. These are <b>areas, not houses</b>. Only 11 of the 55 counties have any.</td>
-<td class="s"><a href="https://www.mapwv.gov/flood/">WV Flood Tool</a> (WV GIS Technical Center), from FEMA National Flood Insurance Program records</td></tr>
-
-<tr><td class="c">% in floodplain</td>
-<td>How much of the county sits inside FEMA's high-risk flood zone, the area with a 1-in-100 chance of flooding in any given year. Statewide, 3.2% of West Virginia is in it. Mason County is the highest at 9.85%.<span class="mapped">Mapped</span></td>
-<td class="s"><a href="https://www.fema.gov/flood-maps/national-flood-hazard-layer">FEMA flood maps</a></td></tr>
+<tr><td class="c">Flood loss/yr</td>
+<td>FEMA's estimate of how much money the county loses to flooding in an average year, across buildings, crops, and people. This is a <b>projection from a model</b>, not a record of what was actually lost.</td>
+<td class="s"><a href="https://hazards.fema.gov/nri/">FEMA National Risk Index</a></td></tr>
 
 <tr><td class="c">Natl flood %ile</td>
 <td>Where the county ranks against <b>every county in the United States</b> for flood loss. 99 means only 1% of U.S. counties lose more. <b>This is the number to trust.</b> FEMA's own overall flood-risk rating is graded on a curve against the whole country and buries a small state: it tags seven West Virginia counties "Relatively Low" that sit above the 99th national percentile, including Pleasants and Wirt at 99.9. The median West Virginia county is in the 96th percentile, and 45 of 55 are above the 90th.</td>
-<td class="s"><a href="https://hazards.fema.gov/nri/">FEMA National Risk Index</a></td></tr>
-
-<tr><td class="c">Flood loss/yr</td>
-<td>FEMA's estimate of how much money the county loses to flooding in an average year, across buildings, crops, and people. This is a <b>projection from a model</b>, not a record of what was actually lost.</td>
 <td class="s"><a href="https://hazards.fema.gov/nri/">FEMA National Risk Index</a></td></tr>
 
 <tr><td class="c">Outage hrs/yr</td>
 <td>How many hours the average customer spent without power in 2023, on average. Mason County is the worst in the state at more than 14 hours.</td>
 <td class="s"><a href="https://www.eia.gov/electricity/data/eia861/">U.S. Energy Information Administration</a></td></tr>
 
+<tr><td class="c">Rep. loss</td>
+<td>Repetitive loss areas: places FEMA has formally flagged as flooding over and over. These are <b>areas, not houses</b>. Only 11 of the 55 counties have any.</td>
+<td class="s"><a href="https://www.mapwv.gov/flood/">WV Flood Tool</a> (WV GIS Technical Center), from FEMA National Flood Insurance Program records</td></tr>
+
 <tr><td class="c">SVI</td>
 <td>A 0-to-1 score for how hard it would be for a community to weather a disaster and recover, based on income, age, disability, housing, transportation, and language. The higher the score, the harder recovery is: 0.90 means it would be tougher here than in 90% of U.S. counties. The CDC calls this the Social Vulnerability Index.</td>
 <td class="s"><a href="https://www.atsdr.cdc.gov/placeandhealth/svi/">CDC Social Vulnerability Index, 2022</a></td></tr>
-
-<tr><td class="c">% 60+</td>
-<td>Share of residents aged 60 or older. 60 is the federal definition of an older adult, under the Older Americans Act.</td>
-<td class="s"><a href="https://www.census.gov/programs-surveys/acs">U.S. Census, American Community Survey</a></td></tr>
-
-<tr><td class="c">Class</td>
-<td>Whether the county is Urban or Rural. Urban means it contains a city of more than 50,000 people. Most of West Virginia is rural.</td>
-<td class="s"><a href="https://www.census.gov/programs-surveys/metro-micro.html">U.S. Office of Management and Budget</a>, via the U.S. Census Bureau</td></tr>
-
-<tr><td class="c">Data center</td>
-<td>Whether a large AI data center is announced, proposed, permitted, or certified in the county, shown as a flag with the project's status. Details for every project sit in the panel below the county table. Unlike the flood columns (2011&ndash;2024), this is a <b>current, fast-changing snapshot</b>, hand-curated and dated. Power figures are self-reported and mix the <b>power-plant</b> capacity built to run the center with the center's own <b>IT</b> capacity.</td>
-<td class="s"><a href="https://www.fractracker.org/data-centers/">FracTracker U.S. Data Centers Tracker</a>, verified against WVDEP air permits, the WV Division of Economic Development, and the Governor's office</td></tr>
 
 </tbody>
 </table></div>
