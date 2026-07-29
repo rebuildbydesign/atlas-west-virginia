@@ -108,6 +108,18 @@ tr.ev td:first-child{box-shadow:inset 4px 0 0 var(--on)}
 .ev-box .h{font-size:.66rem;text-transform:uppercase;letter-spacing:.09em;color:var(--on);font-weight:700}
 .ev-box p{margin:.4rem 0 .5rem;font-size:.87rem;line-height:1.65;max-width:52rem}
 .ev-box small{color:var(--grey);font-size:.72rem}
+.dcflag{font-size:.72rem;color:var(--grey);white-space:nowrap}
+.dcflag .dot{color:var(--crimson)}
+.dcpanel{border:1px solid var(--rule);border-left:3px solid var(--crimson);background:var(--tint);padding:1rem 1.15rem;margin-top:1.2rem;font-size:.85rem;line-height:1.55}
+.dcpanel h3{margin:0 0 .3rem;font-size:.98rem;color:var(--head)}
+.dcpanel .lead{margin:0 0 .7rem;color:var(--ink)}
+.dcpanel ul{margin:.2rem 0 0;padding:0;list-style:none}
+.dcpanel li{padding:.4rem 0;border-bottom:1px solid var(--rule)}
+.dcpanel li:last-child{border-bottom:0}
+.dcpanel .cty{font-weight:700;color:var(--head)}
+.dcpanel .st{display:inline-block;font-size:.62rem;text-transform:uppercase;letter-spacing:.05em;color:var(--crimson);border:1px solid var(--crimson);border-radius:2px;padding:.02rem .3rem;margin-left:.35rem;vertical-align:.09em}
+.dcpanel a{color:var(--crimson)}
+.dcpanel small{display:block;margin-top:.7rem;color:var(--grey);font-size:.75rem;line-height:1.5}
 footer{margin-top:1.2rem;font-size:.74rem;color:var(--grey);line-height:1.6}
 footer b{color:var(--ink)}
 footer a{color:var(--crimson)}
@@ -151,8 +163,9 @@ footer a{color:var(--crimson)}
 <div class="main">
   <div class="summary" id="summary"></div>
   <div class="tw"><table><thead><tr id="th"></tr></thead><tbody id="tb"></tbody></table></div>
+  <div class="dcpanel" id="dcpanel"></div>
   <footer>
-  <b>Source.</b> Built from <b>data/wv_county_profile.csv</b>; disaster counts and FEMA totals reconcile to the Atlas of Accountability 2011&ndash;2024 workbook on all 55 counties. See <a href="methodology.html">About the data</a> for every column and its source. <b>Not in this file yet:</b> data centers, coal plants, mining, and landownership.
+  <b>Source.</b> Built from <b>data/wv_county_profile.csv</b>; disaster counts and FEMA totals reconcile to the Atlas of Accountability 2011&ndash;2024 workbook on all 55 counties. See <a href="methodology.html">About the data</a> for every column and its source. <b>Not in this file yet:</b> coal plants, mining, and landownership.
   </footer>
 </div>
 </div>
@@ -178,7 +191,7 @@ const num=v=>{const n=parseFloat(v);return isNaN(n)?0:n;};
 const med=a=>{const s=[...a].sort((x,y)=>x-y);return s[Math.floor(s.length/2)];};
 const q3=a=>{const s=[...a].sort((x,y)=>x-y);return s[Math.floor(.75*(s.length-1))];};
 
-let D=[], sort='dis', asc=false, picked=new Set(), sel=new Set(), open=null, tip=null, onlyMatch=false, Q={};
+let D=[], sort='dis', asc=false, picked=new Set(), sel=new Set(), open=null, tip=null, onlyMatch=false, Q={}, DC=[];
 
 // Atlas of Accountability data first, then flood and hazard data.
 const COLS=[
@@ -194,6 +207,7 @@ const COLS=[
   ['rl',   'Rep. loss',       'n'],
   ['buy',  'Buyouts',         'n'],
   ['eal',  'Flood loss/yr',   'm'],
+  ['dc',   'Data center',     'dc', 1],
   ['basin','Basin',           't', 1],
 ];
 
@@ -226,9 +240,13 @@ const FACTORS=[
   why:'Federal recovery money follows paperwork and declared damage, not real need. Half of West Virginia&rsquo;s counties have gotten back <b>$28 or less per person</b> in fourteen years. When a county floods this badly and still sees this little, it is carrying a risk Washington has not paid its share of.'},
 ];
 
-fetch('data/wv_county_profile.csv')
-  .then(r=>{ if(!r.ok) throw new Error(r.status); return r.text(); })
-  .then(t=>{
+// Load the county profile plus the curated data-center registry. The registry
+// is optional: if it is missing the page still works, just without that column.
+Promise.all([
+  fetch('data/wv_county_profile.csv').then(r=>{ if(!r.ok) throw new Error(r.status); return r.text(); }),
+  fetch('data/wv_data_centers.csv').then(r=> r.ok ? r.text() : '').catch(()=>'')
+])
+  .then(([t, dcText])=>{
     D=parseCSV(t).map(r=>({
       c:r.COUNTY, basin:r.BASIN, cls:r.OMB_CLASS,
       dis:num(r.DISASTER_COUNT_2011_2024), statedis:num(r.STATE_DISASTER_COUNT),
@@ -239,6 +257,9 @@ fetch('data/wv_county_profile.csv')
       fp:+num(r.PCT_COUNTY_IN_SFHA).toFixed(1), rl:num(r.REPETITIVE_LOSS_AREAS),
       buy:num(r.BUYOUTS_TOTAL), eal:num(r.FLOOD_EAL_TOTAL), pop:num(r.POPULATION)
     }));
+    DC = dcText ? parseCSV(dcText) : [];
+    const dcBy={}; DC.forEach(r=>{ (dcBy[r.county]=dcBy[r.county]||[]).push(r); });
+    D.forEach(d=>{ d.dc = dcBy[d.c] || null; });
     init();
   })
   .catch(e=>{
@@ -292,7 +313,30 @@ function init(){
     if(!document.getElementById('multi').contains(e.target)) document.getElementById('panel').hidden=true;
   });
 
+  buildDCPanel();
   draw();
+}
+
+// Build the "Data centers proposed in West Virginia" panel below the table
+// from the curated registry. Dated snapshot; sources credited.
+function buildDCPanel(){
+  const el=document.getElementById('dcpanel');
+  if(!DC.length){ el.style.display='none'; return; }
+  const shortStatus=s=>/[Cc]ertified/.test(s)?'certified':/construction/i.test(s)?'under construction':'proposed';
+  const scaleOf=x=>{ const mw=x.power_mw?Number(x.power_mw):0;
+    if(mw) return mw.toLocaleString()+' MW '+x.power_type;
+    if(x.acres){ const a=Number(x.acres); return (isNaN(a)?x.acres:a.toLocaleString())+' acres'; }
+    return x.power_type||''; };
+  const rows=[...DC].sort((a,b)=>a.county.localeCompare(b.county)).map(x=>
+    '<li><span class="cty">'+x.county+'</span> &mdash; '+
+    (x.source_url?'<a href="'+x.source_url+'" target="_blank" rel="noopener">'+x.project+'</a>':x.project)+
+    ' ('+x.developer+')<span class="st">'+shortStatus(x.status)+'</span>'+
+    (scaleOf(x)?' &middot; '+scaleOf(x):'')+'</li>').join('');
+  el.innerHTML='<h3>Data centers proposed in West Virginia</h3>'+
+    '<p class="lead">A 2025 state law (HB 2014) opened the door to large AI data centers, most of them powered by <b>new on-site fossil-gas plants</b> that run largely outside normal grid oversight. Here is what has been announced so far.</p>'+
+    '<ul>'+rows+'</ul>'+
+    '<small>Power figures are self-reported and mix two things: the <b>power-plant</b> capacity built to run the data center (Tucker, Mason, Mingo) versus the data center&rsquo;s own <b>IT</b> capacity (Berkeley). These are current and proposed projects &mdash; a dated snapshot, not the 2011&ndash;2024 window of the flood columns. '+
+    'Sources: <a href="https://www.fractracker.org/data-centers/" target="_blank" rel="noopener">FracTracker U.S. Data Centers Tracker</a> plus primary reporting (WVDEP permits, WV Division of Economic Development, Governor&rsquo;s office). Last checked '+(DC[0].date_checked||'')+'.</small>';
 }
 
 // Build the checkbox list of all counties, alphabetically.
@@ -350,6 +394,14 @@ function evidence(d){
   if(d.saidi>=Q.sd) soc.push('an average of <b>'+(d.saidi/60).toFixed(1)+' hours</b> without power each year');
   if(d.old>=25) soc.push('<b>'+d.old+'%</b> of residents aged 60 or over');
   if(soc.length) parts.push('Recovery will be harder here: the county has '+soc.join(', ')+'.');
+  if(d.dc&&d.dc.length){
+    const x=d.dc[0], mw=x.power_mw?Number(x.power_mw):0;
+    let scale = mw ? (mw.toLocaleString()+' MW '+x.power_type) : '';
+    if(!scale && x.acres){ const a=Number(x.acres); scale=(isNaN(a)?x.acres:a.toLocaleString())+' acres'; }
+    if(!scale) scale=x.power_type||'';
+    const cert=/[Cc]ertified/.test(x.status);
+    parts.push('<b>Who is adding to the load:</b> a data center is '+(cert?'certified':'proposed')+' here &mdash; <b>'+x.project+'</b> ('+x.developer+')'+(scale?', '+scale:'')+'. Source: FracTracker and primary reporting, checked '+x.date_checked+'.');
+  }
   return parts.map(p=>'<p>'+p+'</p>').join('');
 }
 
@@ -378,12 +430,16 @@ function draw(){
   rows.sort((a,c)=>{
     const x=a[sort], y=c[sort];
     if(t==='t') return asc?String(x).localeCompare(y):String(y).localeCompare(x);
+    if(t==='dc'){ const av=a.dc&&a.dc.length?1:0, bv=c.dc&&c.dc.length?1:0; return asc?av-bv:bv-av; }
     return asc?x-y:y-x;
   });
 
   // "Worst in column" marker, computed over all 55 counties.
-  const max={}; COLS.forEach(c=>{ if(c[2]!=='t'&&c[2]!=='x') max[c[0]]=Math.max(...D.map(d=>d[c[0]])); });
+  const max={}; COLS.forEach(c=>{ if(c[2]!=='t'&&c[2]!=='x'&&c[2]!=='dc') max[c[0]]=Math.max(...D.map(d=>d[c[0]])); });
   const fmt=(v,t)=>{
+    if(t==='dc'){ if(!v||!v.length) return ''; const st=v[0].status||'';
+      const sh=/[Cc]ertified/.test(st)?'certified':/construction/i.test(st)?'building':'proposed';
+      return '<span class="dcflag"><span class="dot">&#9679;</span> '+sh+(v.length>1?' +'+(v.length-1):'')+'</span>'; }
     if(v===''||v==null) return '<span style="color:var(--grey)">&ndash;</span>';
     if(t==='m') return '$'+(v>=1e6?(v/1e6).toFixed(1)+'M':v.toLocaleString());
     if(t==='p') return v.toFixed(1)+'%';
@@ -401,7 +457,7 @@ function draw(){
   rows.forEach(d=>{
     const cls=act.length?(isMatch(d)?'hit':'miss'):'';
     html+='<tr class="'+cls+'" data-c="'+d.c+'">'+COLS.map(c=>{
-      const isnum=(c[2]!=='t');
+      const isnum=(c[2]!=='t'&&c[2]!=='dc');
       const hi=max[c[0]]&&d[c[0]]===max[c[0]]&&max[c[0]]>0?' hi':'';
       return '<td class="'+(isnum?'num':'')+hi+(c[3]?' grp':'')+'">'+fmt(d[c[0]],c[2])+'</td>';
     }).join('')+'</tr>';
