@@ -117,6 +117,17 @@ footer{margin-top:3rem;padding-top:1rem;border-top:1px solid var(--rule);font-si
 
 <p><b>Basin.</b> Counties were matched to the watersheds they sit in. A county is only counted as belonging to a second basin if a real share of it (at least 1%) is actually there. Without that rule, eight eastern counties looked like they sat in both basins because of tiny slivers of land along the ridgeline, a quirk of the map rather than a real fact. With the rule, only Monroe County genuinely sits in both.</p>
 
+<h2 id="data-centers">How the data-center layer was built</h2>
+<p>The data-center column, and the panel beneath the county table, work differently from every other column here. The flood, funding, and vulnerability columns are settled records for 2011&ndash;2024. Data centers are a <b>live, fast-moving story</b>: projects announced in 2025 and 2026, most still proposed, a few certified, one under construction. So this layer is a <b>hand-curated, dated snapshot</b>, not an automated feed, and it will be updated as projects move or fall through.</p>
+
+<p><b>Where it comes from.</b> The starting point is <a href="https://www.fractracker.org/data-centers/">FracTracker&rsquo;s U.S. Data Centers Tracker</a>, a nonprofit dataset compiled from permit documents, parcel records, and public-records requests. Every West Virginia entry was then <b>checked against primary sources</b>: West Virginia DEP air-quality permits, the West Virginia Division of Economic Development&rsquo;s high-impact certifications under House Bill 2014, and the Governor&rsquo;s own announcements. Each row records the project, county, developer, status, a source link, and the date it was last checked.</p>
+
+<p><b>What the check caught.</b> FracTracker&rsquo;s national dataset is a strong start but was not complete for West Virginia. It was <b>missing two of the largest projects</b>, the certified Penzance campus in Berkeley County and Google&rsquo;s campus in Putnam County, and its Mason County entry was out of date. Those gaps were filled from state and primary sources. That is why this layer is curated by hand rather than pulled in wholesale.</p>
+
+<p><b>Two cautions when reading it.</b> First, the power figures are <b>self-reported by the developers</b> and mix two different things: most describe the <b>fossil-gas power plant</b> being built to run the data center (Tucker, Mason, Mingo), while a few describe the data center&rsquo;s own <b>computing (IT) capacity</b> (Berkeley). They are not directly comparable, which is why the table shows a status flag rather than a single megawatt number. Second, <b>proposed is not built</b>. Several of these projects face permit appeals or local opposition and may shrink or never happen; the flag records what has been announced, not what exists.</p>
+
+<p><b>Why it belongs in a flood atlas.</b> House Bill 2014 (2025) lets these data centers power themselves with on-site fossil plants that run largely outside the normal grid and Public Service Commission oversight. Setting that beside a county&rsquo;s flood risk and its history of being shortchanged on federal recovery money is the accountability question this atlas exists to ask: who is adding load and risk to the places already carrying the most, and who is answerable for it.</p>
+
 <footer>
 Disaster counts and FEMA dollars match the Atlas of Accountability 2011-2024 workbook exactly, for all 55 counties.<br>
 <a href="./">Back to the county table</a> &middot; <a href="https://github.com/rebuildbydesign/atlas-west-virginia">Data and code</a>
